@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Online Library Management System</title>
+  <style>
+    /* Add your CSS styles for the layout here */
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .book-list {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .add-book {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .search-books {
+      flex: 1;
+      padding: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      transition: background-color 0.3s;
+    }
+
+    li:hover {
+      background-color: #f0f0f0;
+    }
+
+    form input,
+    form button {
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+
+  <script>
+    // JavaScript for preventing duplicate entries and populating the book list
+    const bookList = document.getElementById('book-list');
+    const addBookForm = document.getElementById('add-book-form');
+
+    addBookForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const titleInput = document.getElementById('title');
+      const isbnInput = document.getElementById('isbn');
+
+      // Check for duplicates
+      const isDuplicate = Array.from(bookList.getElementsByTagName('li')).some(item => {
+        const itemTitle = item.querySelector('.title').textContent;
+        const itemISBN = item.querySelector('.isbn').textContent;
+        return itemTitle === titleInput.value || itemISBN === isbnInput.value;
+      });
+
+      if (isDuplicate) {
+        alert('Duplicate entry. Please check the title or ISBN.');
+        return;
+      }
+
+      // Add the new book to the list
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="title">${titleInput.value}</span> - <span class="isbn">${isbnInput.value}</span>`;
+      bookList.appendChild(li);
+
+      // Clear the form
+      addBookForm.reset();
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="book-list">
+      <h2>Book List</h2>
+      <ul id="book-list">
+        <h5>Hacking:  The Art of Exploitation By jon Erickson ISBN : 129 192172235</h5>
+        <h5>Introduction to the data science by Sohail yousuf ISBN : 832 334455776</h5>
+        <h5>Introduction To Web programming By Muhammad ISBN : 532 728173838378838</h5>
+      </ul>
+    </div>
+    <div class="add-book">
+      <h2>Add New Book</h2>
+      <form id="add-book-form">
+        <input type="text" id="title" placeholder="Title" required>
+        <input type="text" id="author" placeholder= "Author" required>
+        <input type="number" id="isbn" placeholder="ISBN" required>
+        <button type="submit">Add Book</button>
+      </form>
+    </div>
+    <div class="search-books">
+      <h2>Search for Books</h2>
+      <input type="text" id="search" placeholder="Search">
+      <br>
+      <h5>Hacking:  The Art of Exploitation By jon Erickson ISBN :12919 192172</h5>
+    </div>
+  </div>
+</body>
+</html>
+
